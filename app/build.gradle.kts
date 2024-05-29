@@ -35,6 +35,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+    }
 }
 
 dependencies {
@@ -47,6 +51,14 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    //viewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel:2.7.0")
+    //lifeData
+    implementation("androidx.lifecycle:lifecycle-livedata:2.7.0")
+    //Activity
+    implementation("androidx.activity:activity-ktx:1.9.0")
+    // Fragment
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
     //hilt
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
