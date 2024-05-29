@@ -1,4 +1,7 @@
 package com.example.test
 
-class testApp {
-}
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class testApp : Application()
