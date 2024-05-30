@@ -1,6 +1,8 @@
 package com.example.test.data.model
 
-class DataProvider {
+import javax.inject.Inject
+
+class DataProvider @Inject constructor(){
     val data = listOf<DataModel>(
         DataModel("importar texto")
     )

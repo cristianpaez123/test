@@ -6,10 +6,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Observer
 import com.example.test.R
 import com.example.test.databinding.ActivityMainBinding
 import com.example.test.iu.viewModel.MainViemModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -28,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         setupObserver()
     }
     private fun setupObserver(){
-
+        viemModel.dataModel.observe(this, Observer {
+            binding.textData.text = it.text
+        })
     }
 }
