@@ -1,4 +1,6 @@
 package com.example.test.data
 
-class DataRepository {
+import javax.inject.Inject
+
+class DataRepository @Inject constructor(){
 }
