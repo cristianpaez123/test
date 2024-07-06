@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.example.test.R
 import com.example.test.databinding.ActivityMainBinding
@@ -36,35 +37,36 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         auth = Firebase.auth
+        initListener()
         setupObserver()
-        binding.btnLogIn.setOnClickListener {
-            logIn(binding.editTextEmail.text.toString(), binding.editTextPassword.text.toString())
-        }
     }
 
     private fun setupObserver() {
-        viemModel.dataModel.observe(this, Observer {
-            binding.textData.text = it.text
+        viemModel.showErrorDialog.observe(this, Observer {
+            if (it) {
+                Toast.makeText(this@MainActivity, "pailas", Toast.LENGTH_LONG).show()
+            }
         })
-    }
 
-    private fun logIn(email: String, password: String) {
-        if (email.isNotEmpty() && password.isNotEmpty()) {
-            FirebaseAuth.getInstance()
-                .signInWithEmailAndPassword(email, password).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        binding.textData.text = getIdUser()
-                    } else {
-                        Toast.makeText(this@MainActivity, "pailas", Toast.LENGTH_LONG).show()
-                    }
-                }
-        } else {
-            Toast.makeText(this@MainActivity, "perrito ingrese datos", Toast.LENGTH_LONG).show()
+        viemModel.showIdUser.observe(this, Observer {
+            showIdUser(it)
+        })
+
+        viemModel.viewState.observe(this, Observer {
+            binding.progress.isVisible = it.isLoading
+        })
+
+    }
+    private fun initListener() {
+        binding.btnLogIn.setOnClickListener {
+            viemModel.loginUser(
+                binding.editTextEmail.text.toString(),
+                binding.editTextPassword.text.toString()
+            )
         }
     }
 
-    private fun getIdUser(): String {
-        val user = auth.currentUser
-        return user?.uid ?: ""
+    private fun showIdUser(id: String?) {
+        binding.textData.text = id
     }
 }
